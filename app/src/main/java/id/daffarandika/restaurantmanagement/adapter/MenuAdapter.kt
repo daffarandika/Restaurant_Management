@@ -1,6 +1,7 @@
 package id.daffarandika.restaurantmanagement.adapter
 
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
@@ -11,17 +12,32 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import id.daffarandika.restaurantmanagement.CONSTS
 import id.daffarandika.restaurantmanagement.R
+import id.daffarandika.restaurantmanagement.RecyclerViewEvent
 import id.daffarandika.restaurantmanagement.model.Menu
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.net.URL
 
-class MenuAdapter(val context: Context, val menus : MutableList<Menu>) : RecyclerView.Adapter<MenuAdapter.MenuViewHolder>() {
-    class MenuViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class MenuAdapter(private val context: Context,
+                  private val menus : MutableList<Menu>,
+                  private val rve: RecyclerViewEvent
+                  ) : RecyclerView.Adapter<MenuAdapter.MenuViewHolder>() {
+    inner class MenuViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val tvMenuName = view.findViewById<TextView>(R.id.tvMenuName)
         val tvMenuPrice = view.findViewById<TextView>(R.id.tvMenuPrice)
         val ivMenuPhoto = view.findViewById<ImageView>(R.id.ivMenuPhoto)
+
+        init {
+            view.setOnClickListener(this)
+        }
+
+        override fun onClick(p0: View?) {
+            val position = adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                rve.onItemClick(position)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {

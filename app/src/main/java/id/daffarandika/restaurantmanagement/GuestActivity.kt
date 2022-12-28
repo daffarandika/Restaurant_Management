@@ -1,9 +1,11 @@
 package id.daffarandika.restaurantmanagement
 
+import android.content.Intent
 import android.os.Bundle
+import android.telecom.Call.Details
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import id.daffarandika.restaurantmanagement.adapter.MenuAdapter
 import id.daffarandika.restaurantmanagement.databinding.ActivityGuestBinding
 import id.daffarandika.restaurantmanagement.model.Menu
@@ -14,15 +16,16 @@ import org.json.JSONArray
 import java.net.HttpURLConnection
 import java.net.URL
 
-class GuestActivity : AppCompatActivity() {
+class GuestActivity : AppCompatActivity(), RecyclerViewEvent {
+    val menus : MutableList<Menu> = mutableListOf()
+    private val TAG = "GuestActivity"
     lateinit var binding: ActivityGuestBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGuestBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val menus : MutableList<Menu> = mutableListOf()
         getMenus(menus)
-        binding.rvGuest.adapter = MenuAdapter(this, menus)
+        binding.rvGuest.adapter = MenuAdapter(this, menus, this)
         binding.rvGuest.layoutManager = LinearLayoutManager(this)
     }
 
@@ -41,5 +44,12 @@ class GuestActivity : AppCompatActivity() {
                 ))
             }
         }
+    }
+
+    override fun onItemClick(position: Int) {
+        val menuid: String = menus[position].id
+        val intent = Intent(this, GuestDetailActivity::class.java)
+        intent.putExtra("menuid", menuid)
+        startActivity(intent)
     }
 }

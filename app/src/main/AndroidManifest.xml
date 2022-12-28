@@ -28,6 +28,7 @@
         </activity>
         <activity android:name=".GuestActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".GuestDetailActivity" />
     </application>
 
 </manifest>
