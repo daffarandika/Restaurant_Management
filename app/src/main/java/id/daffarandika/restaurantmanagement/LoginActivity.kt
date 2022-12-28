@@ -1,5 +1,6 @@
 package id.daffarandika.restaurantmanagement
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import id.daffarandika.restaurantmanagement.databinding.ActivityLoginBinding
@@ -10,5 +11,9 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.tvGuest.setOnClickListener {
+            val intent = Intent(this, GuestActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

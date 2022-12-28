@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Restaurant Management</string>
+    <string name="price">Price: %1$s</string>
 </resources>
