@@ -8,6 +8,7 @@ import id.daffarandika.restaurantmanagement.databinding.ActivityLoginBinding
 class LoginActivity : AppCompatActivity() {
     lateinit var binding : ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -16,6 +17,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.btnLogin.setOnClickListener {
+            setTheme(R.style.splashTheme)
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
