@@ -1,43 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/relBottomSheet"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/bottom_sheet_behavior"
-    android:background="@color/red"
+    app:behavior_peekHeight="50dp"
+    app:behavior_hideable="false"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@id/inv1"
-        android:layout_alignParentLeft="true"
-        android:background="@color/grey">
-        <ImageView
-            android:id="@+id/left"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_baseline_mail_outline_24"/>
-    </LinearLayout>
+    android:layout_height="match_parent">
     <View
-        android:layout_centerHorizontal="true"
-        android:id="@+id/inv1"
-        android:layout_width="0dp"
-        android:layout_height="0dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/drag"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:background="@drawable/draggable" />
+    <RelativeLayout
+        app:layout_constraintTop_toBottomOf="@id/drag"
+        android:background="@color/red"
+        android:layout_width="match_parent"
+        android:layout_height="1000dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/inv1"
+            android:layout_alignParentLeft="true"
+            android:background="@color/grey">
+            <ImageView
+                android:id="@+id/left"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_baseline_mail_outline_24"/>
+        </LinearLayout>
+        <View
+            android:layout_centerHorizontal="true"
+            android:id="@+id/inv1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignLeft="@id/inv1"
-        android:background="@color/grey">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignLeft="@id/inv1"
+            android:background="@color/grey">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_baseline_mail_outline_24"/>
-    </LinearLayout>
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_baseline_mail_outline_24"/>
+        </LinearLayout>
+    </RelativeLayout>
 
 
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

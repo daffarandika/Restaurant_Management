@@ -1,0 +1,31 @@
+Main Concept :
+    1. recyclerview's only going to generate enough item to fill the screen and
+       it will (queue the drum roll) recycle the items to display the data if
+       there are more of them that can fits in to the screen
+    2. onCreateViewHolder inflates the layout 
+    3. onBindViewHolder assigns values 
+    4. getItemCount just wants to know how many items there are
+
+How to Implement
+    1. add the recyclerview and add an id
+
+    2. make base layout for the row item ( use a cardview )
+    3. add views within the layout ( add cornerRadius and cardElevation to make it pretty)
+
+    4. create model class for the data ( if you use image add string as the data type for it's url )
+    5. Make adapter class
+        - extends RecyclerViewAdapter and copy the adapter name to the <> tag and append .viewHolder (  viewHolder will be an inner class )
+        - add context and MutableList<Model> as the constructor of the adapter class (use them as val btw)
+        - implement all three method (onCreateViewHolder, onBindViewHolder, getItemCount)
+        - create the inner viewHolder class by extending RecyclerViewAdapter.ViewHolder 
+        - assign each view inside of the row using view.findViewById
+        - get length of MutableList<Model> and use it as a return for getItemCount
+        - in onBindViewHolder get model = modelList[position], make updateUI method with (holder, model) as parameters, implement onClickListener if necessary (add id as param)
+        - val layout = LayoutInflater.from(context).inflate(R.layout.row_item, parent, false)
+            return ViewHolder(layout)
+
+    6. HttpURLConnection.get() the data
+    7. Attach recyclerview to main activity
+
+
+
