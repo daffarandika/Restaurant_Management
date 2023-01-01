@@ -44,11 +44,12 @@ class BottomDialogHomeFragment : Fragment(), RecyclerViewEvent {
         val title = bottons_title[position].title
         Toast.makeText(requireContext(), title, Toast.LENGTH_SHORT).show()
         activity?.supportFragmentManager?.beginTransaction()?.apply {
-            val args: Bundle = Bundle()
-            val testFragment = TestFragment()
+            val args = Bundle()
+            val optionFragment = BottomDialogOptionFragment()
             args.putString("title", bottons_title[position].title)
-            testFragment.arguments = args
-            replace(R.id.fragment, testFragment)
+            optionFragment.arguments = args
+            addToBackStack(null)
+            replace(R.id.fragment, optionFragment)
             commit()
         }
     }

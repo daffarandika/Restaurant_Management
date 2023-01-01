@@ -52,27 +52,21 @@ class MenuAdapter(private val context: Context,
         updateUI(holder, menu)
     }
 
-    private fun updateUI(holder: MenuViewHolder, menu: Menu) {
-        val executor: ExecutorService = Executors.newSingleThreadExecutor()
+    private fun updateUI(holder: MenuViewHolder, menu: Menu) = runBlocking{
+        launch(Dispatchers.IO) {
+            val url = menu.photo
+            val inputStream = URL(CONSTS.url + "/images/" + url).openConnection().getInputStream()
+            val bitmap = BitmapFactory.decodeStream(inputStream)
 
-        val url = menu.photo
-        val inputStream =
-            URL(CONSTS.url + "/images/" + url).openConnection().getInputStream()
-        val bitmap = BitmapFactory.decodeStream(inputStream)
-
-        executor.execute(object: Runnable {
-            override fun run() {
-            }
-        })
-
-        (context as Activity).runOnUiThread(object: Runnable {
-            override fun run() {
-                val resources = context.resources
-                holder.tvMenuName.text = menu.name
-                holder.tvMenuPrice.text = resources.getString(R.string.price, menu.price)
-                holder.ivMenuPhoto.setImageBitmap(bitmap)
-            }
-        })
+            (context as Activity).runOnUiThread(object: Runnable {
+                override fun run() {
+                    val resources = context.resources
+                    holder.tvMenuName.text = menu.name
+                    holder.tvMenuPrice.text = resources.getString(R.string.price, menu.price)
+                    holder.ivMenuPhoto.setImageBitmap(bitmap)
+                }
+            })
+        }
 
     }
 
