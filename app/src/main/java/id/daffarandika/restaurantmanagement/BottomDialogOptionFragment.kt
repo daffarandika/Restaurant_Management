@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import id.daffarandika.restaurantmanagement.adapter.EmployeeAdapter
+import id.daffarandika.restaurantmanagement.adapter.HeadorderAdapter
 import id.daffarandika.restaurantmanagement.adapter.MemberAdapter
 import id.daffarandika.restaurantmanagement.model.Employee
+import id.daffarandika.restaurantmanagement.model.Headorder
 import id.daffarandika.restaurantmanagement.model.Member
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,6 +25,7 @@ class BottomDialogOptionFragment: Fragment(R.layout.fragment_bottom_dialog_optio
 
     var employees: MutableList<Employee> = mutableListOf()
     var members: MutableList<Member> = mutableListOf()
+    var headorders: MutableList<Headorder> = mutableListOf()
     private val TAG = "BottomDialogOptionFragm"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,10 +39,15 @@ class BottomDialogOptionFragment: Fragment(R.layout.fragment_bottom_dialog_optio
             val adapter = MemberAdapter(requireContext(), members, this)
             rv.adapter = adapter
             rv.layoutManager = LinearLayoutManager(context)
-        } else {
+        } else if (args == "Employee") {
             getEmployee()
             val adapter = EmployeeAdapter(requireContext(), employees, this)
             rv.adapter =  adapter
+            rv.layoutManager = LinearLayoutManager(context)
+        } else if (args == "Head Order") {
+            getHeadorder()
+            val adapter = HeadorderAdapter(requireContext(), headorders, this)
+            rv.adapter = adapter
             rv.layoutManager = LinearLayoutManager(context)
         }
     }
@@ -88,4 +96,23 @@ class BottomDialogOptionFragment: Fragment(R.layout.fragment_bottom_dialog_optio
 
         }
     }
+
+    fun getHeadorder () = runBlocking {
+        launch (Dispatchers.IO) {
+            val conn = URL(CONSTS.url+"/headorder").openConnection() as HttpURLConnection
+            val inputString = conn.inputStream.bufferedReader().readText()
+            val jsonArray = JSONArray(inputString)
+            for (i in 0 until jsonArray.length()) {
+                val jsonObject = jsonArray.getJSONObject(i)
+                headorders.add(Headorder(
+                    jsonObject.getString("orderid"),
+                    jsonObject.getString("employeeid"),
+                    jsonObject.getString("memberid"),
+                    jsonObject.getString("date"),
+                    jsonObject.getString("payment")
+                ))
+            }
+        }
+    }
+
 }
